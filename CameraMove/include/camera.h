@@ -7,11 +7,11 @@
 
 namespace Game
 {
-	using Point = Geometry::Point;
-	using Size = Geometry::Size;
-
 	class Camera
 	{
+		using Point = Geometry::Point;
+		using Size = Geometry::Size;
+
 	public:
 		Camera(const Point& point, const Size& size);
 		Camera(Point&& point, Size&& size);

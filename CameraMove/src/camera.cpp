@@ -2,6 +2,8 @@
 
 #include <utility>
 
+using namespace Geometry;
+
 namespace Game
 {
 	Camera::Camera(const Point& point, const Size& size)
