@@ -15,6 +15,12 @@ namespace Geometry
 		void set_x(float x);
 		void set_y(float y);
 
+		Point operator+(const Point& rhs);
+		Point& operator+=(const Point& rhs);
+
+		Point operator+(float value);
+		Point& operator+=(float value);
+
 	protected:
 		float x_coord = 1.f;
 		float y_coord = 1.f;
