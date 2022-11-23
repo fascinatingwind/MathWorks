@@ -1,5 +1,7 @@
 #include "size.h"
 
+#include <cmath>
+
 namespace Geometry
 {
 	Size::Size(float w, float h)
@@ -19,11 +21,11 @@ namespace Geometry
 
 	float Size::w() const
 	{
-		return width;
+		return std::abs(width);
 	}
 
 	float Size::h() const
 	{
-		return height;
+		return std::abs(height);
 	}
 }

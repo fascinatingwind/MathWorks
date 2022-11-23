@@ -32,6 +32,26 @@ namespace Game
 		camera_size = size;
 	}
 
+	Point Camera::top_left() const
+	{
+		return center_point + Point(-camera_size.w() / 2, camera_size.h() / 2);
+	}
+
+	Point Camera::top_right() const
+	{
+		return center_point + Point(camera_size.w() / 2, camera_size.h() / 2);
+	}
+
+	Point Camera::bottom_left() const
+	{
+		return center_point - Point(camera_size.w() / 2, camera_size.h() / 2);
+	}
+
+	Point Camera::bottom_right() const
+	{
+		return center_point + Point(camera_size.w() / 2, -camera_size.h() / 2);
+	}
+
 	Size Camera::size() const
 	{
 		return camera_size;

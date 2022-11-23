@@ -27,9 +27,14 @@ namespace Geometry
 		y_coord = y;
 	}
 
-	Point Point::operator+(const Point& rhs)
+	Point Point::operator+(const Point& rhs) const
 	{
 		return { x_coord + rhs.x_coord, y_coord + rhs.y_coord };
+	}
+
+	Point Point::operator-(const Point& rhs) const
+	{
+		return { x_coord - rhs.x_coord, y_coord - rhs.y_coord };
 	}
 
 	Point& Point::operator+=(const Point& rhs)
@@ -39,15 +44,34 @@ namespace Geometry
 		return *this;
 	}
 
-	Point Point::operator+(float value)
+	Point& Point::operator-=(const Point& rhs)
+	{
+		x_coord -= rhs.x_coord;
+		y_coord -= rhs.y_coord;
+		return *this;
+	}
+
+	Point Point::operator+(float value) const
 	{
 		return { x_coord + value, y_coord + value };
+	}
+
+	Point Point::operator-(float value) const
+	{
+		return { x_coord - value, y_coord - value };
 	}
 
 	Point& Point::operator+=(float value)
 	{
 		x_coord += value;
 		y_coord += value;
+		return *this;
+	}
+
+	Point& Point::operator-=(float value)
+	{
+		x_coord -= value;
+		y_coord -= value;
 		return *this;
 	}
 }

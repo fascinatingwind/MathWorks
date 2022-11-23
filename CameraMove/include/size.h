@@ -4,6 +4,9 @@
 
 namespace Geometry
 {
+	/*
+	* Here Width for X axis, Height for Y axis
+	*/
 	class Size
 	{
 	public:
@@ -12,7 +15,12 @@ namespace Geometry
 		void set_width(float w);
 		void set_height(float h);
 
+		// for X axis
+		// always return absolute value
 		float w() const;
+
+		// for Y axis
+		// always return absolute value
 		float h() const;
 
 	private:

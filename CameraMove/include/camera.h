@@ -22,6 +22,11 @@ namespace Game
 		Size size() const;
 		void set_size(const Size& size);
 
+		Point top_left() const;
+		Point top_right() const;
+		Point bottom_left() const;
+		Point bottom_right() const;
+
 	private:
 		Point center_point;
 		Size camera_size;
