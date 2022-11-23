@@ -9,15 +9,15 @@ namespace Geometry
 	public:
 		Point(float x, float y);
 
-		float x();
-		float y();
+		float x() const;
+		float y() const;
 
 		void set_x(float x);
 		void set_y(float y);
 
 	protected:
-		float x_coord;
-		float y_coord;
+		float x_coord = 1.f;
+		float y_coord = 1.f;
 	};
 }
 

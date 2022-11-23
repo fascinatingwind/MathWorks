@@ -7,12 +7,12 @@ namespace Geometry
 	{
 	}
 
-	float Point::x()
+	float Point::x() const
 	{
 		return x_coord;
 	}
 
-	float Point::y()
+	float Point::y() const
 	{
 		return y_coord;
 	}
@@ -24,6 +24,6 @@ namespace Geometry
 
 	void Point::set_y(float y)
 	{
-		y_coord = y
+		y_coord = y;
 	}
 }
