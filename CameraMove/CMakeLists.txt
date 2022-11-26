@@ -28,21 +28,23 @@ set(HEADER_FILES
 	"include/point.h"
 	"include/camera.h"
 	"include/size.h"
+	"include/glfw_window.h"
 )
 
 set(SOURCE_FILES ${SOURCE_FILES}
 	"src/point.cpp"
 	"src/camera.cpp"
 	"src/size.cpp"
+	"src/glfw_window.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC "include")
 target_link_libraries(${PROJECT_NAME}
 	${Vulkan_LIBRARIES}
 	${GLFW3_LIBRARY})
 
 target_include_directories(${PROJECT_NAME} PUBLIC
+	"include"
 	${Vulkan_INCLUDE_DIR}
 	${GLFW3_INCLUDE_DIR})
