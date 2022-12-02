@@ -10,7 +10,7 @@ find_package(Vulkan REQUIRED)
 
 find_package(GLFW3 REQUIRED)
 if (GLFW3_FOUND)
-  message(STATUS "${PROJECT_NAME} Glfw found")
+  message(STATUS "${PROJECT_NAME} GLFW found")
   message(STATUS "${PROJECT_NAME} GLFW include dir [${GLFW3_INCLUDE_DIR}]")
   include_directories(${GLFW3_INCLUDE_DIR})
   message(STATUS "${PROJECT_NAME} GLFW libraries [${GLFW3_LIBRARY}]")
@@ -28,23 +28,25 @@ set(HEADER_FILES
 	"include/point.h"
 	"include/camera.h"
 	"include/size.h"
-	"include/glfw_window.h"
+	"include/vulkan_instance.h"
 )
 
 set(SOURCE_FILES ${SOURCE_FILES}
 	"src/point.cpp"
 	"src/camera.cpp"
 	"src/size.cpp"
-	"src/glfw_window.cpp"
+	"src/vulkan_instance.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME}
 	${Vulkan_LIBRARIES}
-	${GLFW3_LIBRARY})
+	${GLFW3_LIBRARY}
+)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
 	"include"
 	${Vulkan_INCLUDE_DIR}
-	${GLFW3_INCLUDE_DIR})
+	${GLFW3_INCLUDE_DIR}
+)
