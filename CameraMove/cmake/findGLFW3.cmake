@@ -18,11 +18,11 @@
 
 # Check environment for root search directory
 set(GLFW3_ROOT $ENV{GLFW3_ROOT} )
-
+message(${GLFW3_ROOT})
 # Put user specified location at beginning of search
 if(GLFW3_ROOT)
 	set(GLFW3_INCLUDE_DIR "${GLFW3_ROOT}/include")
-	FIND_LIBRARY(GLFW3_LIBRARY NAMES glfw3 glfw PATHS "${GLFW3_ROOT}/lib" )
+	FIND_LIBRARY(GLFW3_LIBRARY NAMES glfw3 glfw PATHS "${GLFW3_ROOT}/lib-vc2022" )
 endif(GLFW3_ROOT)
 
 # Search for the library

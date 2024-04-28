@@ -9,27 +9,27 @@ namespace Game
 {
 	class Camera
 	{
-		using Point = Geometry::Point;
-		using Size = Geometry::Size;
+		using PointF = Geometry::PointF;
+		using SizeF = Geometry::SizeF;
 
 	public:
-		Camera(const Point& point, const Size& size);
-		Camera(Point&& point, Size&& size);
+		Camera(const PointF& point, const SizeF& size);
+		Camera(PointF&& point, SizeF&& size);
 
-		Point center() const;
-		void set_center(const Point& point);
+		PointF center() const;
+		void set_center(const PointF& point);
 
-		Size size() const;
-		void set_size(const Size& size);
+		SizeF size() const;
+		void set_size(const SizeF& size);
 
-		Point top_left() const;
-		Point top_right() const;
-		Point bottom_left() const;
-		Point bottom_right() const;
+		PointF top_left() const;
+		PointF top_right() const;
+		PointF bottom_left() const;
+		PointF bottom_right() const;
 
 	private:
-		Point center_point;
-		Size camera_size;
+		PointF center_point;
+		SizeF camera_size;
 	};
 }
 #endif

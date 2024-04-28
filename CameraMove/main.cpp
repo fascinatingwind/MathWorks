@@ -1,10 +1,10 @@
 #include <cstdlib>
 
-#include "glfw_window.h"
+#include "vulkan_instance.h"
 
 int main(int argv, char* argc[])
 {
-	GLFW::GlfwWindow window("Example", 800, 600);
-	window.loop();
+	Vulkan::VulkanInstance instance;
+	instance.run();
 	return EXIT_SUCCESS;
 }

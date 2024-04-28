@@ -4,33 +4,74 @@
 
 namespace Geometry
 {
+	template<typename T>
 	class Point
 	{
 	public:
-		Point(float x, float y);
+		Point(T x, T y) : x_coord(x), y_coord(y) {};
 
-		float x() const;
-		float y() const;
+		T x() const { return x_coord; };
+		T y() const { return y_coord; };
 
-		void set_x(float x);
-		void set_y(float y);
+		void set_x(T x) { x_coord = x; };
+		void set_y(T y) { y_coord = y; };
 
-		Point operator+(const Point& rhs) const;
-		Point operator-(const Point& rhs) const;
+		Point operator+(const Point& rhs) const
+		{
+			return { x_coord + rhs.x_coord, y_coord + rhs.y_coord };
+		};
 
-		Point& operator+=(const Point& rhs);
-		Point& operator-=(const Point& rhs);
+		Point operator-(const Point& rhs) const
+		{
+			return { x_coord - rhs.x_coord, y_coord - rhs.y_coord };
+		}
 
-		Point operator+(float value) const;
-		Point operator-(float value) const;
+		Point& operator+=(const Point& rhs)
+		{
+			x_coord += rhs.x_coord;
+			y_coord += rhs.y_coord;
+			return *this;
+		}
 
-		Point& operator+=(float value);
-		Point& operator-=(float value);
+		Point& operator-=(const Point& rhs)
+		{
+			x_coord -= rhs.x_coord;
+			y_coord -= rhs.y_coord;
+			return *this;
+		}
+
+		Point operator+(float value) const
+		{
+			return { x_coord + value, y_coord + value };
+		}
+
+		Point operator-(float value) const
+		{
+			return { x_coord - value, y_coord - value };
+		}
+
+		Point& operator+=(float value)
+		{
+			x_coord += value;
+			y_coord += value;
+			return *this;
+		}
+
+		Point& operator-=(float value)
+		{
+			x_coord -= value;
+			y_coord -= value;
+			return *this;
+		}
 
 	protected:
-		float x_coord = 1.f;
-		float y_coord = 1.f;
+		T x_coord;
+		T y_coord;
 	};
+
+	using PointF = Point<float>;
+	using PointD = Point<double>;
+	using PointI = Point<int>;
 }
 
 #endif

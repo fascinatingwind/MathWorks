@@ -6,53 +6,53 @@ using namespace Geometry;
 
 namespace Game
 {
-	Camera::Camera(const Point& point, const Size& size)
+	Camera::Camera(const PointF& point, const SizeF& size)
 		: center_point(point), camera_size(size)
 	{
 	}
 
-	Camera::Camera(Point&& point, Size&& size)
-		: center_point(std::forward<Point>(point))
-		, camera_size(std::forward<Size>(size))
+	Camera::Camera(PointF&& point, SizeF&& size)
+		: center_point(std::forward<PointF>(point))
+		, camera_size(std::forward<SizeF>(size))
 	{
 	}
 
-	Point Camera::center() const
+	PointF Camera::center() const
 	{
 		return center_point;
 	}
 
-	void Camera::set_center(const Point& point)
+	void Camera::set_center(const PointF& point)
 	{
 		center_point = point;
 	}
 
-	void Camera::set_size(const Size& size)
+	void Camera::set_size(const SizeF& size)
 	{
 		camera_size = size;
 	}
 
-	Point Camera::top_left() const
+	PointF Camera::top_left() const
 	{
-		return center_point + Point(-camera_size.w() / 2, camera_size.h() / 2);
+		return center_point + PointF(-camera_size.w() / 2, camera_size.h() / 2);
 	}
 
-	Point Camera::top_right() const
+	PointF Camera::top_right() const
 	{
-		return center_point + Point(camera_size.w() / 2, camera_size.h() / 2);
+		return center_point + PointF(camera_size.w() / 2, camera_size.h() / 2);
 	}
 
-	Point Camera::bottom_left() const
+	PointF Camera::bottom_left() const
 	{
-		return center_point - Point(camera_size.w() / 2, camera_size.h() / 2);
+		return center_point - PointF(camera_size.w() / 2, camera_size.h() / 2);
 	}
 
-	Point Camera::bottom_right() const
+	PointF Camera::bottom_right() const
 	{
-		return center_point + Point(camera_size.w() / 2, -camera_size.h() / 2);
+		return center_point + PointF(camera_size.w() / 2, -camera_size.h() / 2);
 	}
 
-	Size Camera::size() const
+	SizeF Camera::size() const
 	{
 		return camera_size;
 	}

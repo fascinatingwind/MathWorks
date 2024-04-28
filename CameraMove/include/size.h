@@ -2,30 +2,37 @@
 #ifndef SIZE_H
 #define SIZE_H
 
+#include <cmath>
+
 namespace Geometry
 {
 	/*
 	* Here Width for X axis, Height for Y axis
 	*/
+	template<typename T>
 	class Size
 	{
 	public:
-		Size(float w, float h);
+		explicit Size(T w, T h) : width(w), height(h) {};
 
-		void set_width(float w);
-		void set_height(float h);
+		void set_width(T w){ width = w; };
+		void set_height(T h) { height = h; };
 
 		// for X axis
 		// always return absolute value
-		float w() const;
+		T w() const { return std::abs(width); };
 
 		// for Y axis
 		// always return absolute value
-		float h() const;
+		T h() const { return std::abs(height); };
 
 	private:
-		float width = 1.f;
-		float height = 1.f;
+		T width;
+		T height;
 	};
+
+	using SizeF = Size<float>;
+	using SizeD = Size<double>;
+	using SizeI = Size<int>;
 }
 #endif
