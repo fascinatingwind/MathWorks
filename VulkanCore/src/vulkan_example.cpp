@@ -1,4 +1,4 @@
-#include "vulkan_instance.h"
+#include "vulkan_example.h"
 #define NOMINMAX
 #define STB_IMAGE_IMPLEMENTATION
 
@@ -180,14 +180,14 @@ namespace
 
 	static void framebuffer_resize_callback(GLFWwindow* window, int width, int height)
 	{
-		auto app = reinterpret_cast<Vulkan::VulkanInstance*>(glfwGetWindowUserPointer(window));
+		auto app = reinterpret_cast<Vulkan::VulkanExample*>(glfwGetWindowUserPointer(window));
 		app->framebuffer_resized = true;
 	}
 }
 
 namespace Vulkan
 {
-	void VulkanInstance::run()
+	void VulkanExample::run()
 	{
 		init_window();
 		init_vulkan();
@@ -195,7 +195,7 @@ namespace Vulkan
 		clean_up();
 	}
 
-	void VulkanInstance::init_vulkan()
+	void VulkanExample::init_vulkan()
 	{
 		create_instance();
 		setup_debug_messenger();
@@ -221,7 +221,7 @@ namespace Vulkan
 		create_sync_objects();
 	}
 
-	void VulkanInstance::clean_up()
+	void VulkanExample::clean_up()
 	{
 		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 		{
@@ -262,7 +262,7 @@ namespace Vulkan
 		glfwTerminate();
 	}
 
-	void VulkanInstance::setup_debug_messenger()
+	void VulkanExample::setup_debug_messenger()
 	{
 		if (!enable_validation_layers)
 			return;
@@ -273,7 +273,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to set up debug messenger");
 	}
 
-	void VulkanInstance::create_surface()
+	void VulkanExample::create_surface()
 	{
 		VkWin32SurfaceCreateInfoKHR create_info{};
 		create_info.sType = VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR;
@@ -284,7 +284,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create window surface!");
 	}
 
-	void VulkanInstance::pick_physical_device()
+	void VulkanExample::pick_physical_device()
 	{
 		uint32_t device_count = 0;
 		vkEnumeratePhysicalDevices(instance, &device_count, nullptr);
@@ -306,7 +306,7 @@ namespace Vulkan
 			throw std::runtime_error("fialed to find a suitable GPU!");
 	}
 
-	void VulkanInstance::create_logical_device()
+	void VulkanExample::create_logical_device()
 	{
 		auto indices = find_queue_families(physical_device);
 
@@ -354,7 +354,7 @@ namespace Vulkan
 		vkGetDeviceQueue(logical_device, indices.present_family.value(), 0, &present_queue);
 	}
 
-	void VulkanInstance::create_swap_chain()
+	void VulkanExample::create_swap_chain()
 	{
 		auto swap_chain_details = query_swap_chain_support(physical_device);
 		auto surface_format = choose_swap_surface_format(swap_chain_details.formats);
@@ -407,14 +407,14 @@ namespace Vulkan
 		swap_chain_extent = extent;
 	}
 
-	void VulkanInstance::create_image_views()
+	void VulkanExample::create_image_views()
 	{
 		swap_chain_image_views.resize(swap_chain_images.size());
 		for (size_t i = 0; i < swap_chain_images.size(); i++)
 			swap_chain_image_views[i] = create_image_view(swap_chain_images[i], swap_chain_image_format);
 	}
 
-	void VulkanInstance::create_graphics_pipeline()
+	void VulkanExample::create_graphics_pipeline()
 	{
 		auto vert_shader_code = read_file("shaders/shader.vert.spv");
 		auto frag_shader_code = read_file("shaders/shader.frag.spv");
@@ -569,7 +569,7 @@ namespace Vulkan
 		vkDestroyShaderModule(logical_device, frag_shader_module, nullptr);
 	}
 
-	void VulkanInstance::create_render_pass()
+	void VulkanExample::create_render_pass()
 	{
 		VkAttachmentDescription color_attachment{};
 		color_attachment.format = swap_chain_image_format;
@@ -611,7 +611,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create render pass!");
 	}
 
-	void VulkanInstance::create_framebuffers()
+	void VulkanExample::create_framebuffers()
 	{
 		swap_chain_framebuffers.resize(swap_chain_image_views.size());
 		for (size_t i = 0; i < swap_chain_image_views.size(); i++)
@@ -630,7 +630,7 @@ namespace Vulkan
 		}
 	}
 
-	void VulkanInstance::create_command_pool()
+	void VulkanExample::create_command_pool()
 	{
 		auto queue_family_indices = find_queue_families(physical_device);
 		VkCommandPoolCreateInfo pool_info{};
@@ -641,7 +641,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create command pool!");
 	}
 
-	void VulkanInstance::create_vertex_buffer()
+	void VulkanExample::create_vertex_buffer()
 	{
 		VkDeviceSize buffer_size = sizeof(vertices[0]) * vertices.size();
 		VkBuffer staging_buffer;
@@ -662,7 +662,7 @@ namespace Vulkan
 		vkFreeMemory(logical_device, staging_buffer_memory, nullptr);
 	}
 
-	void VulkanInstance::create_index_buffer()
+	void VulkanExample::create_index_buffer()
 	{
 		VkDeviceSize buffer_size = sizeof(indices[0]) * indices.size();
 
@@ -687,7 +687,7 @@ namespace Vulkan
 		vkFreeMemory(logical_device, staging_buffer_memory, nullptr);
 	}
 
-	void VulkanInstance::create_command_buffers()
+	void VulkanExample::create_command_buffers()
 	{
 		command_buffers.resize(MAX_FRAMES_IN_FLIGHT);
 		VkCommandBufferAllocateInfo alloc_info{};
@@ -699,7 +699,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to allocate command buffers!");
 	}
 
-	void VulkanInstance::record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index)
+	void VulkanExample::record_command_buffer(VkCommandBuffer command_buffer, uint32_t image_index)
 	{
 		VkCommandBufferBeginInfo begin_info{};
 		begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
@@ -748,7 +748,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to record command buffer!");
 	}
 
-	void VulkanInstance::create_sync_objects()
+	void VulkanExample::create_sync_objects()
 	{
 		image_available_semaphores.resize(MAX_FRAMES_IN_FLIGHT);
 		render_finished_semaphores.resize(MAX_FRAMES_IN_FLIGHT);
@@ -770,7 +770,7 @@ namespace Vulkan
 		}
 	}
 
-	void VulkanInstance::main_loop()
+	void VulkanExample::main_loop()
 	{
 		while (!glfwWindowShouldClose(window))
 		{
@@ -780,7 +780,7 @@ namespace Vulkan
 		vkDeviceWaitIdle(logical_device);
 	}
 
-	void VulkanInstance::recreate_swapchain()
+	void VulkanExample::recreate_swapchain()
 	{
 		int width = 0;
 		int height = 0;
@@ -797,7 +797,7 @@ namespace Vulkan
 		create_framebuffers();
 	}
 
-	void VulkanInstance::draw_frame()
+	void VulkanExample::draw_frame()
 	{
 		vkWaitForFences(logical_device, 1, &in_flight_fences[current_frame], VK_TRUE, UINT64_MAX);
 
@@ -856,7 +856,7 @@ namespace Vulkan
 		current_frame = (current_frame + 1) % MAX_FRAMES_IN_FLIGHT;
 	}
 
-	void VulkanInstance::cleanup_swapchain()
+	void VulkanExample::cleanup_swapchain()
 	{
 		for (size_t i = 0; i < swap_chain_framebuffers.size(); i++)
 			vkDestroyFramebuffer(logical_device, swap_chain_framebuffers[i], nullptr);
@@ -865,7 +865,7 @@ namespace Vulkan
 		vkDestroySwapchainKHR(logical_device, swapchain, nullptr);
 	}
 
-	void VulkanInstance::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& buffer_memory)
+	void VulkanExample::create_buffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& buffer_memory)
 	{
 		VkBufferCreateInfo buffer_info{};
 		buffer_info.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -889,7 +889,7 @@ namespace Vulkan
 		vkBindBufferMemory(logical_device, buffer, buffer_memory, 0);
 	}
 
-	void VulkanInstance::copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
+	void VulkanExample::copy_buffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size)
 	{
 		auto command_buffer = begin_single_time_commands();
 
@@ -900,7 +900,7 @@ namespace Vulkan
 		end_single_time_commands(command_buffer);
 	}
 
-	void VulkanInstance::create_descriptor_set_layout()
+	void VulkanExample::create_descriptor_set_layout()
 	{
 		VkDescriptorSetLayoutBinding ubo_layout_binding{};
 		ubo_layout_binding.binding = 0;
@@ -927,7 +927,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create descriptor set layout!");
 	}
 
-	void VulkanInstance::create_uniform_buffers()
+	void VulkanExample::create_uniform_buffers()
 	{
 		VkDeviceSize buffer_size = sizeof(uniform_buffer_object);
 		uniform_buffers.resize(MAX_FRAMES_IN_FLIGHT);
@@ -945,7 +945,7 @@ namespace Vulkan
 		}
 	}
 
-	void VulkanInstance::create_descriptor_pool()
+	void VulkanExample::create_descriptor_pool()
 	{
 		std::array< VkDescriptorPoolSize, 2> pool_sizes{};
 		pool_sizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
@@ -963,7 +963,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create descriptor pool!");
 	}
 
-	void VulkanInstance::create_descriptor_sets()
+	void VulkanExample::create_descriptor_sets()
 	{
 		std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, descriptor_set_layout);
 		VkDescriptorSetAllocateInfo alloc_info{};
@@ -1010,7 +1010,7 @@ namespace Vulkan
 
 	}
 
-	void VulkanInstance::update_uniform_buffer(uint32_t current_image)
+	void VulkanExample::update_uniform_buffer(uint32_t current_image)
 	{
 		static auto start_time = std::chrono::high_resolution_clock::now();
 		auto current_time = std::chrono::high_resolution_clock::now();
@@ -1038,7 +1038,7 @@ namespace Vulkan
 		memcpy(uniform_buffers_mapped[current_image], &ubo, sizeof(ubo));
 	}
 
-	void VulkanInstance::create_texture_image()
+	void VulkanExample::create_texture_image()
 	{
 		int tex_width, tex_height, tex_channels;
 		stbi_uc* pixels = stbi_load("textures/texture.jpg", &tex_width, &tex_height, &tex_channels, STBI_rgb_alpha);
@@ -1068,12 +1068,12 @@ namespace Vulkan
 		vkFreeMemory(logical_device, staging_buffer_memory, nullptr);
 	}
 
-	void VulkanInstance::create_texture_image_view()
+	void VulkanExample::create_texture_image_view()
 	{
 		texture_image_view = create_image_view(texture_image, VK_FORMAT_R8G8B8A8_SRGB);
 	}
 
-	void VulkanInstance::create_image(uint32_t width, uint32_t height,
+	void VulkanExample::create_image(uint32_t width, uint32_t height,
 		VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage,
 		VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& image_memory)
 	{
@@ -1108,7 +1108,7 @@ namespace Vulkan
 		vkBindImageMemory(logical_device, image, image_memory, 0);
 	}
 
-	VkImageView VulkanInstance::create_image_view(VkImage image, VkFormat format)
+	VkImageView VulkanExample::create_image_view(VkImage image, VkFormat format)
 	{
 		VkImageViewCreateInfo view_info{};
 		view_info.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -1127,7 +1127,7 @@ namespace Vulkan
 		return image_view;
 	}
 
-	VkCommandBuffer VulkanInstance::begin_single_time_commands()
+	VkCommandBuffer VulkanExample::begin_single_time_commands()
 	{
 		VkCommandBufferAllocateInfo alloc_info{};
 		alloc_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -1146,7 +1146,7 @@ namespace Vulkan
 		return command_buffer;
 	}
 
-	void VulkanInstance::end_single_time_commands(VkCommandBuffer command_buffer)
+	void VulkanExample::end_single_time_commands(VkCommandBuffer command_buffer)
 	{
 		vkEndCommandBuffer(command_buffer);
 
@@ -1160,7 +1160,7 @@ namespace Vulkan
 		vkFreeCommandBuffers(logical_device, command_pool, 1, &command_buffer);
 	}
 
-	void VulkanInstance::transition_image_layout(VkImage image, VkFormat format, VkImageLayout old_layout, VkImageLayout new_layout)
+	void VulkanExample::transition_image_layout(VkImage image, VkFormat format, VkImageLayout old_layout, VkImageLayout new_layout)
 	{
 		auto command_buffer = begin_single_time_commands();
 
@@ -1202,7 +1202,7 @@ namespace Vulkan
 		end_single_time_commands(command_buffer);
 	}
 
-	void VulkanInstance::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height)
+	void VulkanExample::copy_buffer_to_image(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height)
 	{
 		auto command_buffer = begin_single_time_commands();
 		VkBufferImageCopy region{};
@@ -1221,7 +1221,7 @@ namespace Vulkan
 		end_single_time_commands(command_buffer);
 	}
 
-	void VulkanInstance::create_texture_sampler()
+	void VulkanExample::create_texture_sampler()
 	{
 		VkSamplerCreateInfo sampler_info{};
 		sampler_info.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
@@ -1247,7 +1247,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create texture sampler!");
 	}
 
-	bool VulkanInstance::check_validation_layer_support() const
+	bool VulkanExample::check_validation_layer_support() const
 	{
 		uint32_t layer_count;
 		vkEnumerateInstanceLayerProperties(&layer_count, nullptr);
@@ -1274,7 +1274,7 @@ namespace Vulkan
 		return true;
 	}
 
-	bool VulkanInstance::is_device_suitable(VkPhysicalDevice device) const
+	bool VulkanExample::is_device_suitable(VkPhysicalDevice device) const
 	{
 		auto indices = find_queue_families(device);
 		auto extension_supported = check_device_extension_support(device);
@@ -1294,7 +1294,7 @@ namespace Vulkan
 			&& supported_features.samplerAnisotropy;
 	}
 
-	bool VulkanInstance::check_device_extension_support(VkPhysicalDevice device) const
+	bool VulkanExample::check_device_extension_support(VkPhysicalDevice device) const
 	{
 		uint32_t extension_count;
 		vkEnumerateDeviceExtensionProperties(device, nullptr, &extension_count, nullptr);
@@ -1306,7 +1306,7 @@ namespace Vulkan
 		return required_extensions.empty();
 	}
 
-	int VulkanInstance::rate_device_suitability(VkPhysicalDevice device) const
+	int VulkanExample::rate_device_suitability(VkPhysicalDevice device) const
 	{
 		int score = 0;
 
@@ -1323,7 +1323,7 @@ namespace Vulkan
 		return score;
 	}
 
-	std::vector<const char*> VulkanInstance::get_required_extensions()
+	std::vector<const char*> VulkanExample::get_required_extensions()
 	{
 		uint32_t glfw_extension_count = 0;
 		const char** glfw_extensions;
@@ -1338,7 +1338,7 @@ namespace Vulkan
 		return extensions;
 	}
 
-	queue_family_indices VulkanInstance::find_queue_families(VkPhysicalDevice device) const
+	queue_family_indices VulkanExample::find_queue_families(VkPhysicalDevice device) const
 	{
 		queue_family_indices indices;
 		uint32_t queue_family_count = 0;
@@ -1363,7 +1363,7 @@ namespace Vulkan
 		return indices;
 	}
 
-	swap_chain_support_details VulkanInstance::query_swap_chain_support(VkPhysicalDevice device) const
+	swap_chain_support_details VulkanExample::query_swap_chain_support(VkPhysicalDevice device) const
 	{
 		swap_chain_support_details details;
 		vkGetPhysicalDeviceSurfaceCapabilitiesKHR(device, surface, &details.capabilities);
@@ -1384,7 +1384,7 @@ namespace Vulkan
 		return details;
 	}
 
-	void VulkanInstance::init_window()
+	void VulkanExample::init_window()
 	{
 		glfwInit();
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -1393,7 +1393,7 @@ namespace Vulkan
 		glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 	}
 
-	void VulkanInstance::create_instance()
+	void VulkanExample::create_instance()
 	{
 		if (enable_validation_layers && !check_validation_layer_support())
 			throw std::runtime_error("validation layers requested, but not available!");
@@ -1431,7 +1431,7 @@ namespace Vulkan
 			throw std::runtime_error("failed to create instance!");
 	}
 
-	VkExtent2D VulkanInstance::choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities)
+	VkExtent2D VulkanExample::choose_swap_extent(const VkSurfaceCapabilitiesKHR& capabilities)
 	{
 		if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
 			return capabilities.currentExtent;
@@ -1455,7 +1455,7 @@ namespace Vulkan
 		return actual;
 	}
 
-	VkShaderModule VulkanInstance::create_shader_module(const std::vector<char>& code)
+	VkShaderModule VulkanExample::create_shader_module(const std::vector<char>& code)
 	{
 		VkShaderModule shader_module;
 		VkShaderModuleCreateInfo create_info{};
@@ -1467,7 +1467,7 @@ namespace Vulkan
 		return shader_module;
 	}
 
-	uint32_t VulkanInstance::find_memory_type(uint32_t type_filter, VkMemoryPropertyFlags properties)
+	uint32_t VulkanExample::find_memory_type(uint32_t type_filter, VkMemoryPropertyFlags properties)
 	{
 		VkPhysicalDeviceMemoryProperties mem_properties;
 		vkGetPhysicalDeviceMemoryProperties(physical_device, &mem_properties);

@@ -4,7 +4,6 @@
 
 int main(int argv, char* argc[])
 {
-	Vulkan::VulkanInstance instance;
-	instance.run();
+	Vulkan::Instance::instance();
 	return EXIT_SUCCESS;
 }

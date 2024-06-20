@@ -1,6 +1,6 @@
 #pragma once
-#ifndef VULKAN_INSTANE_H
-#define VULKAN_INSTANE_H
+#ifndef VULKAN_EXAMPLE_H
+#define VULKAN_EXAMPLE_H
 
 #include <vector>
 #include <optional>
@@ -29,11 +29,11 @@ struct swap_chain_support_details
 
 namespace Vulkan
 {
-	class VulkanInstance
+	class VulkanExample
 	{
 	public:
-		explicit VulkanInstance() = default;
-		~VulkanInstance() = default;
+		explicit VulkanExample() = default;
+		~VulkanExample() = default;
 
 		void run();
 
@@ -59,7 +59,7 @@ namespace Vulkan
 		VkMemoryRequirements mem_requirements{};
 		VkBuffer index_buffer = VK_NULL_HANDLE;
 		VkDeviceMemory index_buffer_memory = VK_NULL_HANDLE;
-		VkDescriptorPool descriptor_pool;
+		VkDescriptorPool descriptor_pool = VK_NULL_HANDLE;
 		VkImage texture_image;
 		VkDeviceMemory texture_image_memory;
 		VkImageView texture_image_view;
@@ -76,7 +76,7 @@ namespace Vulkan
 		std::vector<VkFence> in_flight_fences;
 
 		GLFWwindow* window = nullptr;
-		VkFormat swap_chain_image_format;
+		VkFormat swap_chain_image_format = VK_FORMAT_UNDEFINED;
 		VkExtent2D swap_chain_extent{};
 
 		std::vector<VkImage> swap_chain_images;

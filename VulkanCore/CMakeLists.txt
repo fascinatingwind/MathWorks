@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(CameraMove VERSION 0.1)
+project(VulkanCore VERSION 0.1)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
@@ -21,22 +21,23 @@ include_directories("include")
 link_directories("src")
 
 set(SOURCE_FILES
-	"main.cpp"
+    "main.cpp"
 )
 
 set(HEADER_FILES
-	"include/point.h"
-	"include/camera.h"
-	"include/size.h"
-	"include/window.h"
-	"include/vulkan_instance.h"
-	"include/stb_image.h"
+    "include/vulkan_example.h"
+    "include/stb_image.h"
+    "include/vulkan_instance.h"
+    "include/validation_layers_interface.h"
+    "include/validation_layers.h"
+    "include/window.h"
 )
 
 set(SOURCE_FILES ${SOURCE_FILES}
-	"src/camera.cpp"
-	"src/window.cpp"
-	"src/vulkan_instance.cpp"
+    "src/vulkan_example.cpp"
+    "src/vulkan_instance.cpp"
+    "src/validation_layers.cpp"
+    "src/window.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
